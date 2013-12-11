@@ -131,7 +131,7 @@ class Article < Content
       self.comments << comment
     end
     self.save!
-    #article_to_merge = Article.find_by_id(other_article_id)
+    article_to_merge = Article.find_by_id(other_article_id)
     article_to_merge.destroy
     return true
   end
