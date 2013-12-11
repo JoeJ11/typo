@@ -128,7 +128,7 @@ class Article < Content
     end
     self.body = self.body + "\n\n" + article_to_merge.body
     article_to_merge.comments.each do |comment|
-      self.coments << comment
+      self.comments << comment
     end
     self.save!
     #article_to_merge = Article.find_by_id(other_article_id)
