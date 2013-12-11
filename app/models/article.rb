@@ -107,7 +107,6 @@ class Article < Content
       
       state = (search_hash[:state] and ["no_draft", "drafts", "published", "withdrawn", "pending"].include? search_hash[:state]) ? search_hash[:state] : 'no_draft'
       
-      
       list_function  = ["Article.#{state}"] + function_search_no_draft(search_hash)
 
       if search_hash[:category] and search_hash[:category].to_i > 0
@@ -120,6 +119,21 @@ class Article < Content
       eval(list_function.join('.'))
     end
 
+  end
+
+  def merge_with(other_article_id)
+    article_to_merge = Article.find_by_id(other_article_id)
+    if (!self.id || !article_to_merge.id)
+      return false;
+    end
+    self.body = self.body + "\n\n" + article_to_merge.body
+    article_to_merge.comments.each do |comment|
+      self.coments << comment
+    end
+    self.save!
+    #article_to_merge = Article.find_by_id(other_article_id)
+    article_to_merge.destroy
+    return true
   end
 
   def year_url
